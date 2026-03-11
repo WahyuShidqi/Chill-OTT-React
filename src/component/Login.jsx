@@ -8,7 +8,7 @@ const Login = () => {
         <form action="" className="login-form">
           <div className="form-container">
             <div className="welcome-wrapper">
-              <img src="/src/assets/Logo.png" alt="Chill.png" />
+              <img src="../assets/Logo.png" alt="Chill.png" />
               <p className="heading">Masuk</p>
               <p>Selamat datang kembali!</p>
             </div>
@@ -34,7 +34,7 @@ const Login = () => {
                 className="password-toggle"
                 onclick="togglePassword()"
               >
-                <img src="/src/assets/eye-off.png" alt="eye-off.png" />
+                <img src="../assets/eye-off.png" alt="eye-off.png" />
               </button>
               <div className="user-option-wrapper">
                 <p>
@@ -52,7 +52,7 @@ const Login = () => {
               </button>
               <p>Atau</p>
               <button className="login-google-btn">
-                <img src="/src/assets/google-icon.png" alt="google-icon.png" />
+                <img src="../assets/google-icon.png" alt="google-icon.png" />
                 Masuk dengan Google
               </button>
             </div>
