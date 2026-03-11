@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/Logo.png";
+import EyeOffIcon from "../assets/eye-off.png";
+import GoogleIcon from "../assets/google-icon.png";
 
 const Login = () => {
   return (
@@ -8,7 +11,7 @@ const Login = () => {
         <form action="" className="login-form">
           <div className="form-container">
             <div className="welcome-wrapper">
-              <img src="../assets/Logo.png" alt="Chill.png" />
+              <img src={Logo} alt="Chill.png" />
               <p className="heading">Masuk</p>
               <p>Selamat datang kembali!</p>
             </div>
@@ -29,12 +32,8 @@ const Login = () => {
                 placeholder="Masukkan kata sandi"
                 required=""
               />
-              <button
-                type="button"
-                className="password-toggle"
-                onclick="togglePassword()"
-              >
-                <img src="../assets/eye-off.png" alt="eye-off.png" />
+              <button type="button" className="password-toggle">
+                <img src={EyeOffIcon} alt="eye-off.png" />
               </button>
               <div className="user-option-wrapper">
                 <p>
@@ -52,7 +51,7 @@ const Login = () => {
               </button>
               <p>Atau</p>
               <button className="login-google-btn">
-                <img src="../assets/google-icon.png" alt="google-icon.png" />
+                <img src={GoogleIcon} alt="google-icon.png" />
                 Masuk dengan Google
               </button>
             </div>

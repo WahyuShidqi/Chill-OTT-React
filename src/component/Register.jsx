@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../login.css";
+import Logo from "../assets/Logo.png";
+import EyeOffIcon from "../assets/eye-off.png";
+import GoogleIcon from "../assets/google-icon.png";
 
 const Register = () => {
   return (
@@ -9,7 +12,7 @@ const Register = () => {
         <form action="" className="login-form">
           <div className="form-container">
             <div className="welcome-wrapper">
-              <img src="/src/assets/Logo.png" alt="Chill.png" />
+              <img src={Logo} alt="Chill.png" />
               <p className="heading">Daftar</p>
               <p>Selamat datang!</p>
             </div>
@@ -30,12 +33,8 @@ const Register = () => {
                 placeholder="Masukkan kata sandi"
                 required
               />
-              <button
-                type="button"
-                className="password-toggle toggle-btn-fix"
-                onclick="togglePassword()"
-              >
-                <img src="/src/assets/eye-off.png" alt="eye-off.png" />
+              <button type="button" className="password-toggle toggle-btn-fix">
+                <img src={EyeOffIcon} alt="eye-off.png" />
               </button>
               {/* <div class="user-option-wrapper">
           <p>Belum punya akun? <a class="font-bold" href="">Daftar</a></p>
@@ -48,14 +47,10 @@ const Register = () => {
                 type="password"
                 id="password-confirm"
                 placeholder="Masukkan kata sandi"
-                required=""
+                required
               />
-              <button
-                type="button"
-                className="password-toggle"
-                onclick="toggleConfirmPassword()"
-              >
-                <img src="/src/assets/eye-off.png" alt="eye-off.png" />
+              <button type="button" className="password-toggle">
+                <img src={EyeOffIcon} alt="eye-off.png" />
               </button>
               <div className="user-option-wrapper">
                 <p>
@@ -72,7 +67,7 @@ const Register = () => {
               </button>
               <p>Atau</p>
               <button className="login-google-btn">
-                <img src="/src/assets/google-icon.png" alt="google-icon.png" />
+                <img src={GoogleIcon} alt="google-icon.png" />
                 Daftar dengan Google
               </button>
             </div>
