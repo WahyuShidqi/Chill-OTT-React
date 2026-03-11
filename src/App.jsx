@@ -6,6 +6,9 @@ import Footer from "./component/Footer.jsx";
 import Register from "./component/Register.jsx";
 import Login from "./component/Login.jsx";
 
+import "./styles.css";
+import "./responsiveStyles.css";
+
 function App() {
   return (
     <>
