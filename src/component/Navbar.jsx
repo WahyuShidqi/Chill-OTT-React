@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 // Assets
-import Logo from "/src/assets/Logo.png";
-import SmolLogo from "/src/assets/Smol-logo.png";
-import UserImg from "/src/assets/thumbs/user-pp.png";
-import DropdownButton from "/src/assets/vector.png";
-import ProfileIcon from "/src/assets/profile.png";
-import StarsIcon from "/src/assets/stars.png";
-import LogoutIcon from "/src/assets/logout.png";
+import Logo from "../assets/Logo.png";
+import SmolLogo from "../assets/Smol-logo.png";
+import UserImg from "../assets/thumbs/user-pp.png";
+import DropdownButton from "../assets/Vector.png";
+import ProfileIcon from "../assets/profile.png";
+import StarsIcon from "../assets/stars.png";
+import LogoutIcon from "../assets/logout.png";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
