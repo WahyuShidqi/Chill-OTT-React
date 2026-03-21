@@ -8,6 +8,7 @@ import Login from "./component/Login.jsx";
 
 import "./styles.css";
 import "./responsiveStyles.css";
+import Admin from "./component/Admin.jsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
         </Routes>
         <Footer></Footer>
       </BrowserRouter>
