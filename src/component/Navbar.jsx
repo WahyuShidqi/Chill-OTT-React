@@ -95,6 +95,15 @@ const Navbar = () => {
               />
               <a href="https://stackoverflow.com">Profil Saya</a>
             </li>
+            {/* Admin page */}
+            <li>
+              <img
+                className="dropdown-icon"
+                src={ProfileIcon}
+                alt="profile icon"
+              />
+              <Link to="/admin">Admin page</Link>
+            </li>
             <li>
               <img className="dropdown-icon" src={StarsIcon} alt="stars icon" />
               <a href="https://pixelsconverter.com">Ubah Premium</a>
