@@ -9,6 +9,7 @@ import DropdownButton from "../assets/Vector.png";
 import ProfileIcon from "../assets/profile.png";
 import StarsIcon from "../assets/stars.png";
 import LogoutIcon from "../assets/logout.png";
+import AdminIcon from "../assets/icon-admin-32.ico";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -99,7 +100,7 @@ const Navbar = () => {
             <li>
               <img
                 className="dropdown-icon"
-                src={ProfileIcon}
+                src={AdminIcon}
                 alt="profile icon"
               />
               <Link to="/admin">Admin page</Link>
