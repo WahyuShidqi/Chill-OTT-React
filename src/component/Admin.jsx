@@ -3,23 +3,11 @@ import { useNavigate } from "react-router-dom";
 // page styling import
 import "../movieTable.css";
 
-// import sonic2 from "../assets/movieImages/sonic2.png";
-// import sonic2Poster from "../assets/movieImages/sonic2-poster.png";
-
 import movieDB from "../data/movieDB.js";
 import GenericCard from "./props/GenericCard.jsx";
 
-// const moviesData = [
-//   {
-//     image: sonic2,
-//     poster: sonic2Poster,
-//     title: "Sonic the Hedgehog 2",
-//     description:
-//       "Sonic settles into life on Earth but longs to prove he is a true hero. His peace is shattered when Dr. Robotnik returns with a powerful new partner, Knuckles. Sonic teams up with Tails on a high-speed adventure to protect an ancient emerald that can reshape the world. It is exciting, energetic, and full of heart.",
-//     ageRating: "7+",
-//     rating: "4.1",
-//   },
-// ];
+// Default banner image import
+import defaultBannerImg from "../assets/movieImages/AFTER.jpg";
 
 const Admin = () => {
   const [isVerified, setIsVerified] = useState(false);
@@ -27,44 +15,39 @@ const Admin = () => {
   const navigate = useNavigate();
 
   let hasAsked = useRef(false);
+  const password = import.meta.env.VITE_ADMIN_PASSWORD;
+  //console.log("Password:", password, typeof password);
 
   // Admin login mockup
-  //     useEffect(() => {
-  //       if (hasAsked.current) return;
-  //       hasAsked.current = true;
 
-  //       const password = import.meta.env.VITE_ADMIN_PASSWORD;
-  //       let inputPasswordimport VerticalCard from './props/VerticalCard';
-  // prompt("Enter your password");
-  //       console.log(
-  //         "inputted value",
-  //         inputPassword,
-  //         password,
-  //         inputPassword === password,
-  //       );
+  useEffect(() => {
+    if (hasAsked.current) return;
+    hasAsked.current = true;
 
-  //       if (inputPassword === password) {
-  //         setIsVerified(true);
-  //       } else {
-  //         alert("Wrong password! redirecting to homepage...");
-  //         navigate("/", { replace: true });
-  //         return;
-  //       }
-  //       alert(`Welcome administrator!...`);
-  //     }, [navigate]);
+    const password = import.meta.env.VITE_ADMIN_PASSWORD;
+    let inputPassword = prompt(
+      "Enter your password. This is silly login mockup. just for fun. Pass: admin",
+    );
+    // console.log(
+    //   "inputted value",
+    //   inputPassword,
+    //   password,
+    //   inputPassword === password,
+    // );
 
-  //   if (!isVerified) {
-  //     return (
-  //       <>
-  //         <div>
-  //           <h1>You're not admin</h1>
-  //         </div>
-  //       </>
-  //     );
-  //   }
+    if (inputPassword === password) {
+      setIsVerified(true); // Ignore React complaining about calling setState inside useEffect, although they are right :D
+    } else {
+      alert("Wrong password! redirecting to homepage...");
+      navigate("/", { replace: true });
+      return;
+    }
+    // alert(`Welcome administrator!...`);
+  }, [navigate]);
 
-  const defaultImg =
+  const defaultPoster =
     "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/movie-poster-template-design-21a1c803fe4ff4b858de24f5c91ec57f_screen.jpg?ts=1636996180";
+  const defaultBanner = defaultBannerImg;
 
   const [isAdminChangeVis, setIsAdminChangeVis] = useState(false);
   //const [isEditVisible, setIsEditVisible] = useState(false);
@@ -122,7 +105,6 @@ const Admin = () => {
   //localStorage data
 
   //deleteDataHandler
-
   function deleteDataHandler(id) {
     setMovieData((prevData) => prevData.filter((movie) => movie.id !== id));
   }
@@ -132,13 +114,28 @@ const Admin = () => {
   const newAgeRatingRef = useRef(null);
   const newRatingRef = useRef(null);
 
+  //Delete all handler
+  function deleteAllHandler() {
+    if (movieData.length < 1) {
+      alert("Nothing to delete...");
+      return;
+    }
+    let isConfirmed = confirm(
+      "Are you sure? You're about to delete all your datas",
+    );
+    if (isConfirmed) {
+      setMovieData([]);
+      return;
+    }
+  }
+
   function addDataHandler(e) {
     e.preventDefault();
     const newId =
       movieData.length > 0 ? movieData[movieData.length - 1].id + 1 : 1;
     //console.log(newId);
-    const newImage = defaultImg;
-    const newPoster = defaultImg;
+    const newImage = defaultBanner;
+    const newPoster = defaultPoster;
     const newTitle = newTitleRef.current.value;
     const newDescription = newDescriptionRef.current.value;
     const newAgeRating = newAgeRatingRef.current.value;
@@ -241,6 +238,16 @@ const Admin = () => {
     localStorage.setItem("movieData", JSON.stringify(movieData));
   }, [movieData]);
 
+  if (!isVerified) {
+    return (
+      <>
+        <div className="content-padding-lr section-padding">
+          <h1 className="empty-placeholder">You're not admin...</h1>
+        </div>
+      </>
+    );
+  }
+
   return (
     <section className="admin-section content-padding-lr">
       <div className="admin-info">
@@ -268,9 +275,6 @@ const Admin = () => {
           }
         >
           + Add New Item
-        </button>
-        <button className="red-btn reset" onClick={() => resetDefault()}>
-          Reset data to default
         </button>
 
         {isAddItemVisible ? (
@@ -387,7 +391,7 @@ const Admin = () => {
         )}
       </div>
       <div className="movie-card-container section-padding ">
-        {/* <VerticalCardSmol image={defaultImg} /> */}
+        {/* <VerticalCardSmol image={defaultPoster} /> */}
         <div className="movie-card-wrapper">
           {movieData.length > 0 ? (
             movieData?.map((movie, idx) => {
@@ -410,6 +414,23 @@ const Admin = () => {
               <h1>Nothing to see here...</h1>
             </>
           )}
+        </div>
+      </div>
+
+      {/* Dangerous section */}
+      <div className="danger-section">
+        <h2 className="danger-section-title">Dangerous Section</h2>
+        <p className="danger-section-desc">
+          Think twice before hitting these red buttons below...
+        </p>
+        <h4 className="danger-button-cont-title">Nuke buttons:</h4>
+        <div className="danger-button-container">
+          <button className="red-btn reset" onClick={() => deleteAllHandler()}>
+            Delete All
+          </button>
+          <button className="red-btn reset" onClick={() => resetDefault()}>
+            Reset data to default
+          </button>
         </div>
       </div>
     </section>

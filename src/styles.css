@@ -1,4 +1,12 @@
 /* *GENERAL STYLING */
+.empty-placeholder {
+  color: #e7e3fc81;
+}
+.centralized-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .content-padding-lr {
   padding-inline: 5rem;
 }

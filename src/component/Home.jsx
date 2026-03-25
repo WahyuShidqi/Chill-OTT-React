@@ -20,6 +20,8 @@ const Home = () => {
     (a, b) => Number(b.rating) - Number(a.rating),
   );
 
+  console.log("moviesData:", moviesData);
+
   function getData() {
     const data = localStorage.getItem("movieData");
 
@@ -27,12 +29,12 @@ const Home = () => {
   }
 
   return (
-    <>
-      <main>
-        {/* Hero section */}
+    <main>
+      {/* Hero section */}
 
-        <section className="hero-section">
-          {/* slides lists! */}
+      <section className="hero-section">
+        {/* slides lists! */}
+        {moviesData.length > 0 ? (
           <Swiper
             className="swiper hero-swiper"
             loop={true}
@@ -43,7 +45,7 @@ const Home = () => {
             }}
             modules={[Parallax, Autoplay]}
           >
-            {MovieDB.map((data, idx) => {
+            {moviesData.map((data, idx) => {
               return (
                 <SwiperSlide key={idx} className="swiper-slide hero-slide">
                   <HeroSlides
@@ -57,12 +59,18 @@ const Home = () => {
               );
             })}
           </Swiper>
-          {/* End of all slides :D */}
-        </section>
+        ) : (
+          <div className="centralized-content section-padding">
+            <h2 className="empty-placeholder">No movies yet...</h2>
+          </div>
+        )}
+        {/* End of all slides :D */}
+      </section>
 
-        {/* Lanjut nonton section */}
-        <section className="continue-watch-section section-padding content-padding-lr">
-          <h2 className="text-xl section-title">Melanjutkan Tonton Film</h2>
+      {/* Lanjut nonton section */}
+      <section className="continue-watch-section section-padding content-padding-lr">
+        <h2 className="text-xl section-title">Melanjutkan Tonton Film</h2>
+        {moviesData.length > 0 ? (
           <Swiper
             className="swiper continue-watch-swiper"
             loop={false}
@@ -85,7 +93,7 @@ const Home = () => {
             }}
           >
             {/* slides lists! */}
-            {MovieDB.map((data, idx) => {
+            {moviesData.map((data, idx) => {
               return (
                 <SwiperSlide
                   key={idx}
@@ -106,15 +114,70 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-        </section>
+        ) : (
+          <h3 className="empty-placeholder">No movies yet...</h3>
+        )}
+      </section>
 
-        {/* Top Rating section */}
-        <section className="top-rating-section section-padding content-padding-lr">
-          <h2 className="text-xl section-title">
-            Top Rating Film dan Series Hari ini
-          </h2>
+      {/* Top Rating section */}
+      <section className="top-rating-section section-padding content-padding-lr">
+        <h2 className="text-xl section-title">
+          Top Rating Film dan Series Hari ini
+        </h2>
+        {/* slides lists! */}
+        {sortedMovies.length > 0 ? (
+          <Swiper
+            className="swiper top-rating-swiper ver-swiper"
+            loop={false}
+            slidesPerView={3}
+            centeredSlides={false}
+            spaceBetween={10}
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
+            breakpoints={{
+              900: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+              },
+              1150: {
+                slidesPerView: 5,
+                spaceBetween: 50,
+              },
+            }}
+            modules={[Navigation]}
+          >
+            {sortedMovies.map((data, idx) => {
+              return (
+                <SwiperSlide
+                  key={idx}
+                  className="swiper-slide ver-card ver-slide"
+                >
+                  <VerticalCard
+                    image={data.poster}
+                    imageAlt={data.title}
+                    rating={data.rating}
+                    lazyload="enabled"
+                  />
+                </SwiperSlide>
+              );
+            })}
 
-          {/* slides lists! */}
+            {/* navigation */}
+            <div className="swiper-button-next" />
+            <div className="swiper-button-prev" />
+          </Swiper>
+        ) : (
+          <h3 className="empty-placeholder">No movies yet... </h3>
+        )}
+        {/* End of all slides :D */}
+      </section>
+
+      {/* Trending section */}
+      <section className="trending-section section-padding content-padding-lr">
+        <h2 className="text-xl section-title">Film Trending</h2>
+        {sortedMovies.length > 0 ? (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -156,12 +219,15 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-          {/* End of all slides :D */}
-        </section>
+        ) : (
+          <h3 className="empty-placeholder">No movies yet... </h3>
+        )}
+      </section>
 
-        {/* Trending section */}
-        <section className="trending-section section-padding content-padding-lr">
-          <h2 className="text-xl section-title">Film Trending</h2>
+      {/* Rilisbaru section */}
+      <section className="rilisbaru-section section-padding content-padding-lr">
+        <h2 className="text-xl section-title">Rilis Baru</h2>
+        {sortedMovies.length > 0 ? (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -203,57 +269,11 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-        </section>
-
-        {/* Rilisbaru section */}
-        <section className="rilisbaru-section section-padding content-padding-lr">
-          <h2 className="text-xl section-title">Rilis Baru</h2>
-          <Swiper
-            className="swiper top-rating-swiper ver-swiper"
-            loop={false}
-            slidesPerView={3}
-            centeredSlides={false}
-            spaceBetween={10}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }}
-            breakpoints={{
-              900: {
-                slidesPerView: 4,
-                spaceBetween: 25,
-              },
-              1150: {
-                slidesPerView: 5,
-                spaceBetween: 50,
-              },
-            }}
-            modules={[Navigation]}
-          >
-            {sortedMovies.map((data, idx) => {
-              return (
-                <SwiperSlide
-                  key={idx}
-                  className="swiper-slide ver-card ver-slide"
-                >
-                  <VerticalCard
-                    image={data.poster}
-                    imageAlt={data.title}
-                    rating={data.rating}
-                    lazyload="enabled"
-                  />
-                </SwiperSlide>
-              );
-            })}
-            {/* navigation */}
-            <div className="swiper-button-next" />
-            <div className="swiper-button-prev" />
-          </Swiper>
-        </section>
-      </main>
-
-      {/* *Scripts below are mine */}
-    </>
+        ) : (
+          <h3 className="empty-placeholder">No movies yet... </h3>
+        )}
+      </section>
+    </main>
   );
 };
 
