@@ -1,129 +1,194 @@
-/* MovieTable.css */
-
-.table-container {
-  width: 100%;
-  overflow-x: auto; /* horizontal scroll on mobile if needed */
-  padding: 1rem 0;
+.admin-greeting-title {
+  line-height: 3rem;
 }
 
-.movie-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: #1a1a1a;
-  color: #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+.blue-btn.add-new {
+  color: white;
+  border-style: solid;
+  font-weight: bold;
 }
 
-.movie-table th,
-.movie-table td {
-  padding: 14px 16px;
-  text-align: left;
-  border-bottom: 1px solid #333333;
+.blue-btn.add-new:hover {
+  color: blue;
 }
 
-.movie-table th {
-  background-color: #222222;
-  color: #ffffff;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-  letter-spacing: 0.4px;
+.admin-info {
+  /* /margin-top: 0.5rem; */
+  padding-block: 3rem;
+  border-bottom: 2px white solid;
 }
 
-.movie-table tr:last-child td {
-  border-bottom: none;
+.admin-info h1 {
+  margin-bottom: 2rem;
 }
-
-.thumbnail {
-  width: 80px;
-  height: auto;
-  border-radius: 6px;
-  object-fit: cover;
-  display: block;
+.admin-info .blue-btn.add-new {
+  margin-inline: 0.5rem;
 }
-
-.poster {
-  width: 100px;
-  height: auto;
-  border-radius: 6px;
-  object-fit: cover;
-  display: block;
+.admin-info .change-username-btn {
+  color: rgb(27, 27, 27);
+  font-weight: bold;
+  outline: none;
+  background-color: rgb(229, 229, 229);
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  border-style: solid;
 }
-
-.description-cell {
-  max-width: 320px;
-  line-height: 1.5;
+.admin-info .change-username-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: white;
+  transition: all ease-in-out 150ms;
 }
-
-/* Buttons */
-.actions {
-  white-space: nowrap;
+.change-username-form {
+  margin-top: 1rem;
+  border: 2px solid rgb(112, 112, 112);
+  width: fit-content;
+  padding-inline: 0.5rem;
+  border-radius: 15px;
 }
-
-.btn {
-  padding: 8px 14px;
-  margin: 0 5px;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.22s ease;
-  background-color: #444444;
+.change-username-form .change-username-input {
+  all: unset;
+  outline: none;
+  background-color: transparent;
+  border-right: 2px solid rgb(112, 112, 112);
+  box-shadow: none;
+  padding: 0.5rem;
+  color: white;
+}
+.change-username-btn.green {
+  background-color: rgb(0, 187, 0) !important;
+  border-style: solid;
+  color: white;
+}
+.change-username-btn.green:hover {
+  background-color: transparent !important;
+  border: 2px solid green;
   color: white;
 }
 
-.btn:hover {
-  background-color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+.red-btn {
+  background-color: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+.red-btn:hover {
+  background-color: transparent;
+  border: 2px solid red;
 }
 
-/* Create - blue */
-.btn.create {
-  background-color: #2563eb;
+.green-btn {
+  background-color: green;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+.green-btn:hover {
+  background-color: transparent;
+  border: 2px solid green;
 }
 
-.btn.create:hover {
-  background-color: white;
-  color: #2563eb;
-  border: 2px solid #2563eb;
+.movie-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Edit - green */
-.btn.edit {
-  background-color: #16a34a;
+.movie-card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem 1.2rem;
+  margin-top: 2.5rem;
 }
 
-.btn.edit:hover {
-  background-color: white;
-  color: #16a34a;
-  border: 2px solid #16a34a;
+.movie-card {
+  width: 16rem;
+  max-width: 16rem;
+  /* height: 18rem; */
+  background-color: rgb(33, 33, 33);
+  flex: 1 1 calc(51% - 25px);
+  border-radius: 5px;
+  overflow: hidden;
 }
 
-/* Delete - red */
-.btn.delete {
-  background-color: #dc2626;
+.movie-card-img img {
+  width: 100%;
+  height: 24rem;
+  object-fit: cover !important;
 }
 
-.btn.delete:hover {
-  background-color: white;
-  color: #dc2626;
-  border: 2px solid #dc2626;
+.movie-card-info {
+  padding: 1rem 0.9rem;
 }
 
-/* Optional: Responsive adjustments */
-@media (max-width: 900px) {
-  .movie-table th:nth-child(1),
-  .movie-table td:nth-child(1),
-  .movie-table th:nth-child(2),
-  .movie-table td:nth-child(2) {
-    display: none; /* hide small images on very narrow screens */
-  }
+.input-new-item-form input {
+  all: unset;
+  display: block;
+  border: 2px solid rgb(112, 112, 112);
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  width: 80%;
+  max-width: 32rem;
+  border-radius: 5px;
+}
 
-  .description-cell {
-    max-width: 220px;
-  }
+.input-new-item-form input:focus {
+  border-color: white;
+}
+
+.input-new-item-form input:nth-child(1) {
+  margin-top: 3rem;
+}
+
+.submit-btn {
+  color: rgb(27, 27, 27);
+  font-weight: bold;
+  outline: none;
+  background-color: rgb(225, 225, 225);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 2px solid rgb(225, 225, 225);
+  margin-top: 1rem;
+}
+.submit-btn:hover {
+  background-color: transparent;
+  color: white;
+  transition: all ease-in-out 150ms;
+}
+
+.cancel-square-btn {
+  color: white;
+  font-weight: bold;
+  outline: none;
+  background-color: red;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 2px solid red;
+  margin-top: 1rem;
+  margin-inline: 0.5rem;
+}
+.cancel-square-btn:hover {
+  background-color: transparent;
+
+  transition: all ease-in-out 150ms;
+}
+
+.genericCard-textarea {
+  height: 9rem;
+  width: 100%;
+  background-color: transparent;
+  color: white;
+  font-size: medium;
+  margin-block: 1rem;
+  padding: 0.5rem;
+  border: 1px solid white;
+  text-align: left;
+  text-wrap: wrap;
+  overflow-x: hidden !important;
+  border-radius: 5px;
+  overflow: scroll;
 }

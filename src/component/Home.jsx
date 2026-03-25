@@ -133,6 +133,7 @@ const Home = () => {
                     image={data.poster}
                     imageAlt={data.title}
                     rating={data.rating}
+                    lazyload="enabled"
                   />
                 </SwiperSlide>
               );
@@ -178,6 +179,7 @@ const Home = () => {
                     image={data.poster}
                     imageAlt={data.title}
                     rating={data.rating}
+                    lazyload="enabled"
                   />
                 </SwiperSlide>
               );
@@ -223,6 +225,7 @@ const Home = () => {
                     image={data.poster}
                     imageAlt={data.title}
                     rating={data.rating}
+                    lazyload="enabled"
                   />
                 </SwiperSlide>
               );
