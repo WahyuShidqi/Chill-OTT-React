@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "swiper/css/bundle";
 import "../swiper.css";
 import Logo from "../assets/Logo.png";
