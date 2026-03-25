@@ -105,7 +105,7 @@ const Admin = () => {
   function getMovieData() {
     const moviesList = localStorage.getItem("movieData");
     if (!moviesList || moviesList === "undefined") {
-      localStorage.setItem("movieData", JSON.stringify([]));
+      //localStorage.setItem("movieData", JSON.stringify([]));
       return [];
     }
     //console.log(JSON.parse(moviesList));

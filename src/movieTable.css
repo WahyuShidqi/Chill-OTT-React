@@ -191,4 +191,5 @@
   overflow-x: hidden !important;
   border-radius: 5px;
   overflow: scroll;
+  overflow-y: auto;
 }

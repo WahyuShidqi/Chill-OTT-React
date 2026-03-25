@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "swiper/css/bundle";
 import "../swiper.css";
 import Logo from "../assets/Logo.png";
@@ -12,6 +12,20 @@ import VerticalCard from "./props/VerticalCard.jsx";
 const Home = () => {
   let topRatedMovie = [...MovieDB];
   topRatedMovie.sort((a, b) => Number(a.rating) - Number(b.rating)).reverse();
+
+  //getting data from local storage
+  const [moviesData, setMoviesData] = useState(getData());
+
+  const sortedMovies = [...moviesData].sort(
+    (a, b) => Number(b.rating) - Number(a.rating),
+  );
+
+  function getData() {
+    const data = localStorage.getItem("movieData");
+
+    return data ? JSON.parse(data) : [];
+  }
+
   return (
     <>
       <main>
@@ -123,7 +137,7 @@ const Home = () => {
             }}
             modules={[Navigation]}
           >
-            {topRatedMovie.map((data, idx) => {
+            {sortedMovies.map((data, idx) => {
               return (
                 <SwiperSlide
                   key={idx}
@@ -144,6 +158,7 @@ const Home = () => {
           </Swiper>
           {/* End of all slides :D */}
         </section>
+
         {/* Trending section */}
         <section className="trending-section section-padding content-padding-lr">
           <h2 className="text-xl section-title">Film Trending</h2>
@@ -169,7 +184,7 @@ const Home = () => {
             }}
             modules={[Navigation]}
           >
-            {topRatedMovie.map((data, idx) => {
+            {sortedMovies.map((data, idx) => {
               return (
                 <SwiperSlide
                   key={idx}
@@ -215,7 +230,7 @@ const Home = () => {
             }}
             modules={[Navigation]}
           >
-            {topRatedMovie.map((data, idx) => {
+            {sortedMovies.map((data, idx) => {
               return (
                 <SwiperSlide
                   key={idx}
