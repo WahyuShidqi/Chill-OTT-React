@@ -34,7 +34,7 @@ const HeroSlides = (prop) => {
             Selengkapnya
           </a>
           <a className="gray-btn font-bold text-sm centralize">
-            {prop.ageRating}
+            {prop.ageRating}+
           </a>
           <span className="volume-btn font-bold text-sm centralize">
             <img
