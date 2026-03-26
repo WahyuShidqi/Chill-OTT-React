@@ -15,8 +15,6 @@ const Admin = () => {
   const navigate = useNavigate();
 
   let hasAsked = useRef(false);
-  const password = import.meta.env.VITE_ADMIN_PASSWORD;
-  //console.log("Password:", password, typeof password);
 
   // Admin login mockup
 
