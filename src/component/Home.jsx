@@ -20,7 +20,7 @@ const Home = () => {
     (a, b) => Number(b.rating) - Number(a.rating),
   );
 
-  console.log("moviesData:", moviesData);
+  // console.log("moviesData:", moviesData);
 
   function getData() {
     const data = localStorage.getItem("movieData");
