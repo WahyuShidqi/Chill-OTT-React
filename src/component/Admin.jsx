@@ -11,19 +11,8 @@ import API_URL from "../api/apiUrl.jsx";
 // Default banner image import
 
 const Admin = () => {
-  // miscs functions
-  function toggler(toggleSetter, ...closeSetters) {
-    if (toggleSetter) toggleSetter((prev) => !prev);
-
-    closeSetters.forEach((setter) => {
-      if (setter) {
-        setter(false);
-      }
-    });
-  }
-
-  // fetch data
-  const { data, loading, error, mutate } = useFetchData("products");
+  //*========================= fetch data ===============================
+  const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
 
   const [movies, setMovies] = useState();
 
@@ -33,7 +22,8 @@ const Admin = () => {
     }
   }, [data]);
 
-  // post data
+  //*================================== post data ==================================
+  const [isAddingData, setIsAddingData] = useState(false);
 
   const [newData, setNewData] = useState({
     image: "",
@@ -41,12 +31,23 @@ const Admin = () => {
     title: "",
     ageRating: "",
     rating: "",
-    id: "",
     description: "",
   });
 
   const postDataHandler = async (e) => {
     e.preventDefault();
+    if (
+      Number.isNaN(Number(newData.rating)) ||
+      Number.isNaN(Number(newData.ageRating))
+    ) {
+      alert("Rating or age rating input must be a number!");
+      return;
+    }
+    if (Number(newData.rating) > 5) {
+      alert("Max rating value is 5!");
+      setNewData((prev) => ({ ...prev, rating: "5" }));
+      return;
+    }
 
     try {
       const res = await axios.post(`${API_URL}/products`, newData);
@@ -59,7 +60,6 @@ const Admin = () => {
         title: "",
         ageRating: "",
         rating: "",
-        id: "",
         description: "",
       });
       mutate();
@@ -68,14 +68,92 @@ const Admin = () => {
     }
   };
 
+  //*================================ EDIT DATA ====================================
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const startEditingHandler = (movie) => {
+    setEditId(movie.id);
+    toggler(setIsEditing(true), setIsAddingData);
+    setEditData({
+      image: movie.image,
+      poster: movie.poster,
+      title: movie.title,
+      ageRating: movie.ageRating,
+      rating: movie.rating,
+      description: movie.description,
+    });
+  };
+
+  const updateDataHandler = async (e) => {
+    e.preventDefault();
+    if (
+      Number.isNaN(Number(editData.rating)) ||
+      Number.isNaN(Number(editData.ageRating))
+    ) {
+      alert("Rating or age rating input must be a number!");
+      return;
+    }
+    if (Number(editData.rating) > 5) {
+      alert("Max rating value is 5!");
+      setNewData((prev) => ({ ...prev, rating: "5" }));
+      return;
+    }
+
+    try {
+      const res = await axios.put(`${API_URL}/products/${editId}`, editData);
+      console.log("Data updated succesfully", res.data);
+      mutate();
+      setEditId(null);
+      setIsEditing(false);
+      setEditData({
+        image: "",
+        poster: "",
+        title: "",
+        ageRating: "",
+        rating: "",
+        description: "",
+      });
+    } catch (error) {
+      console.log(`Failed to update data ${error.message}`);
+    }
+  };
+
+  //*==================== DELETE DATA ========================
+  const deleteHandler = async (movie) => {
+    try {
+      const res = await axios.delete(`${API_URL}/products/${movie.id}`);
+      console.log(`Data has been deleted!`, res.data);
+      mutate();
+    } catch (error) {
+      console.log(`Failed to delete data ${error.message}`);
+    }
+  };
+
+  //*==================MISCS FUNCS==============================
+  function toggler(toggleSetter, ...closeSetters) {
+    if (toggleSetter) toggleSetter((prev) => !prev);
+
+    closeSetters.forEach((setter) => {
+      if (setter) {
+        setter(false);
+      }
+    });
+  }
+
   return (
     <section className="admin-section content-padding-lr">
       <div className="admin-info">
         <h1 className="admin-greeting-title">Welcome {name || "Admin"}!</h1>
-        <button className="change-username-btn">Change your name</button>
-        <button className="blue-btn add-new">+ Add New Item</button>
+        {/* <button className="change-username-btn">Change your name</button> */}
+        <button
+          className="blue-btn add-new"
+          onClick={() => toggler(setIsAddingData(true), setIsEditing)}
+        >
+          + Add New Item
+        </button>
 
-        {
+        {isAddingData ? (
           <div className="input-new-item-section section-padding">
             <h1>Add new item</h1>
             <form className="input-new-item-form" onSubmit={postDataHandler}>
@@ -122,7 +200,10 @@ const Admin = () => {
                 placeholder="Input age rating here..."
                 value={newData.ageRating}
                 onChange={(e) =>
-                  setNewData((prev) => ({ ...prev, ageRating: e.target.value }))
+                  setNewData((prev) => ({
+                    ...prev,
+                    ageRating: e.target.value,
+                  }))
                 }
                 required
               />
@@ -136,70 +217,94 @@ const Admin = () => {
                 required
               />
               <button className="submit-btn">Submit</button>
-              <button className="cancel-square-btn" type="button">
+              <button
+                className="cancel-square-btn"
+                type="button"
+                onClick={() => setIsAddingData(false)}
+              >
                 Cancel
               </button>
             </form>
           </div>
-        }
+        ) : (
+          <></>
+        )}
 
-        <div className="input-new-item-section section-padding">
-          <h1>Edit item</h1>
-          <form className="input-new-item-form">
-            <input
-              type="text"
-              placeholder="Input image link here..."
-              value={newData.image}
-              onChange={(e) =>
-                setNewData((prev) => ({ ...prev, image: e.target.value }))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Input poster link here..."
-              value={newData.poster}
-              onChange={(e) =>
-                setNewData((prev) => ({ ...prev, poster: e.target.value }))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Input title here..."
-              value={newData.title}
-              onChange={(e) =>
-                setNewData((prev) => ({ ...prev, title: e.target.value }))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Input description here..."
-              value={newData.description}
-              onChange={(e) =>
-                setNewData((prev) => ({ ...prev, description: e.target.value }))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Input age rating here..."
-              value={newData.ageRating}
-              onChange={(e) =>
-                setNewData((prev) => ({ ...prev, ageRating: e.target.value }))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Input rating here"
-              value={newData.rating}
-              onChange={(e) =>
-                setNewData((prev) => ({ ...prev, rating: e.target.value }))
-              }
-            />
-            <button className="submit-btn">Submit</button>
-            <button className="cancel-square-btn" type="button">
-              Cancel
-            </button>
-          </form>
-        </div>
+        {isEditing ? (
+          <div className="input-new-item-section section-padding">
+            <h1>Edit item</h1>
+            <form className="input-new-item-form" onSubmit={updateDataHandler}>
+              <input
+                type="text"
+                placeholder="Input image link here..."
+                value={editData?.image}
+                onChange={(e) =>
+                  setEditData((prev) => ({ ...prev, image: e.target.value }))
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Input poster link here..."
+                value={editData?.poster}
+                onChange={(e) =>
+                  setEditData((prev) => ({ ...prev, poster: e.target.value }))
+                }
+              />
+              <input
+                type="text"
+                placeholder="Input title here..."
+                value={editData?.title}
+                onChange={(e) =>
+                  setEditData((prev) => ({ ...prev, title: e.target.value }))
+                }
+              />
+              <input
+                type="text"
+                placeholder="Input description here..."
+                value={editData?.description}
+                onChange={(e) =>
+                  setEditData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+              />
+              <input
+                type="text"
+                placeholder="Input age rating here..."
+                value={editData?.ageRating}
+                onChange={(e) =>
+                  setEditData((prev) => ({
+                    ...prev,
+                    ageRating: e.target.value,
+                  }))
+                }
+              />
+              <input
+                type="text"
+                placeholder="Input rating here"
+                value={editData?.rating}
+                onChange={(e) =>
+                  setEditData((prev) => ({ ...prev, rating: e.target.value }))
+                }
+              />
+              <button className="submit-btn">Submit</button>
+              <button
+                className="cancel-square-btn"
+                type="button"
+                onClick={() => {
+                  setIsEditing(false);
+                  setEditId(null);
+                }}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="movie-card-container section-padding ">
         {/* <VerticalCardSmol image={defaultPoster} /> */}
@@ -221,13 +326,15 @@ const Admin = () => {
                 description={movie.description}
                 rating={movie.rating}
                 ageRating={movie.ageRating}
+                deleteHandler={() => deleteHandler(movie)}
+                editHandler={() => startEditingHandler(movie)}
               />
             ))}
         </div>
       </div>
 
       {/* Dangerous section */}
-      <div className="danger-section">
+      {/* <div className="danger-section">
         <h2 className="danger-section-title">Dangerous Section</h2>
         <p className="danger-section-desc">
           Think twice before hitting these red buttons below...
@@ -237,7 +344,7 @@ const Admin = () => {
           <button className="red-btn reset">Delete All</button>
           <button className="red-btn reset">Reset data to default</button>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

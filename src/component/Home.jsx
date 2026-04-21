@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "swiper/css/bundle";
 import "../swiper.css";
 import Logo from "../assets/Logo.png";
@@ -8,26 +8,36 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Parallax } from "swiper/modules";
 import HorizontalCard from "./props/HorizontalCard.jsx";
 import VerticalCard from "./props/VerticalCard.jsx";
+import useFetchData from "../api/useFetchData.jsx";
 
 const Home = () => {
-  let topRatedMovie = [...MovieDB];
-  topRatedMovie.sort((a, b) => Number(a.rating) - Number(b.rating)).reverse();
+  // let topRatedMovie = [...MovieDB];
+  // topRatedMovie.sort((a, b) => Number(a.rating) - Number(b.rating)).reverse();
 
-  //getting data from local storage
-  const [moviesData, setMoviesData] = useState(getData());
+  //*========================= fetch data ===============================
+  const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
+
+  const [moviesData, setMoviesData] = useState();
+
+  useEffect(() => {
+    if (data) {
+      setMoviesData(data);
+      console.log("data", data);
+    }
+  }, [data]);
+
+  if (!data || data.length < 1) {
+    console.log("bruh");
+    return (
+      <>
+        <h2>No data yet...</h2>
+      </>
+    );
+  }
 
   const sortedMovies = [...moviesData].sort(
     (a, b) => Number(b.rating) - Number(a.rating),
   );
-
-  // console.log("moviesData:", moviesData);
-
-  function getData() {
-    const data = localStorage.getItem("movieData");
-
-    return data ? JSON.parse(data) : [];
-  }
-
   return (
     <main>
       {/* Hero section */}
