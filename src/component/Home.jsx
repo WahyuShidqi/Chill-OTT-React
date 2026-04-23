@@ -48,17 +48,17 @@ const Home = () => {
         {/* slides lists! */}
         {error && (
           <div className="centralized-content section-padding">
-            <h3 className="empty-placeholder">{error}</h3>
+            <h2 className="empty-placeholder">{error}</h2>
           </div>
         )}
         {loading && (
           <div className="centralized-content section-padding">
-            <h3 className="empty-placeholder">Loading...</h3>
+            <h2 className="empty-placeholder">Loading...</h2>
           </div>
         )}
         {!error && !loading && moviesData?.length === 0 && (
           <div className="centralized-content section-padding">
-            <h3 className="empty-placeholder">No movies yet...</h3>
+            <h2 className="empty-placeholder">No movies yet...</h2>
           </div>
         )}
         {!error && !loading && moviesData?.length > 0 && (
@@ -151,7 +151,12 @@ const Home = () => {
           Top Rating Film dan Series Hari ini
         </h2>
         {/* slides lists! */}
-        {sortedMovies?.length > 0 ? (
+        {error && <h3 className="empty-placeholder">{error}</h3>}
+        {loading && <h3 className="empty-placeholder">Loading...</h3>}
+        {!error && !loading && moviesData?.length === 0 && (
+          <h3 className="empty-placeholder">No movies yet...</h3>
+        )}
+        {!error && !loading && sortedMovies?.length > 0 && (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -194,8 +199,6 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-        ) : (
-          <h3 className="empty-placeholder">No movies yet... </h3>
         )}
         {/* End of all slides :D */}
       </section>
@@ -203,7 +206,12 @@ const Home = () => {
       {/* Trending section */}
       <section className="trending-section section-padding content-padding-lr">
         <h2 className="text-xl section-title">Film Trending</h2>
-        {sortedMovies?.length > 0 ? (
+        {error && <h3 className="empty-placeholder">{error}</h3>}
+        {loading && <h3 className="empty-placeholder">Loading...</h3>}
+        {!error && !loading && moviesData?.length === 0 && (
+          <h3 className="empty-placeholder">No movies yet...</h3>
+        )}
+        {!error && !loading && sortedMovies?.length > 0 && (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -245,15 +253,18 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-        ) : (
-          <h3 className="empty-placeholder">No movies yet... </h3>
         )}
       </section>
 
       {/* Rilisbaru section */}
       <section className="rilisbaru-section section-padding content-padding-lr">
         <h2 className="text-xl section-title">Rilis Baru</h2>
-        {sortedMovies?.length > 0 ? (
+        {error && <h3 className="empty-placeholder">{error}</h3>}
+        {loading && <h3 className="empty-placeholder">Loading...</h3>}
+        {!error && !loading && moviesData?.length === 0 && (
+          <h3 className="empty-placeholder">No movies yet...</h3>
+        )}
+        {!error && !loading && sortedMovies?.length > 0 && (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -295,8 +306,6 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-        ) : (
-          <h3 className="empty-placeholder">No movies yet... </h3>
         )}
       </section>
     </main>
