@@ -72,21 +72,29 @@ const Admin = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState(null);
   const [editId, setEditId] = useState(null);
+  const [existingData, setExistingData] = useState(null);
+
   const startEditingHandler = (movie) => {
     setEditId(movie.id);
     toggler(setIsEditing(true), setIsAddingData);
-    setEditData({
+
+    const selectedData = {
       image: movie.image,
       poster: movie.poster,
       title: movie.title,
       ageRating: movie.ageRating,
       rating: movie.rating,
       description: movie.description,
-    });
+    };
+
+    setEditData(selectedData);
+    setExistingData(selectedData);
   };
 
   const updateDataHandler = async (e) => {
     e.preventDefault();
+    // original value to compare to track changes. if editData similar to existingData then updateHandler will not perform update
+
     if (
       Number.isNaN(Number(editData.rating)) ||
       Number.isNaN(Number(editData.ageRating))
@@ -97,6 +105,12 @@ const Admin = () => {
     if (Number(editData.rating) > 5) {
       alert("Max rating value is 5!");
       setNewData((prev) => ({ ...prev, rating: "5" }));
+      return;
+    }
+
+    console.log(existingData === editData);
+    if (JSON.stringify(editData) === JSON.stringify(existingData)) {
+      alert("Nothing changed!");
       return;
     }
 
@@ -114,6 +128,7 @@ const Admin = () => {
         rating: "",
         description: "",
       });
+      setExistingData(null);
     } catch (error) {
       console.log(`Failed to update data ${error.message}`);
     }
