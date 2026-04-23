@@ -88,6 +88,10 @@ a:hover {
   font-weight: 700 !important;
 }
 
+.lh-md {
+  line-height: normal;
+}
+
 body {
   background-color: rgba(24, 26, 28, 1);
   color: #e7e3fc;

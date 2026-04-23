@@ -121,6 +121,12 @@ const Admin = () => {
 
   //*==================== DELETE DATA ========================
   const deleteHandler = async (movie) => {
+    const confirmDeletion = confirm(
+      `Are you sure? You're about to delete "${movie.title}" movie. You won't be able to recover it later!`,
+    );
+
+    if (!confirmDeletion) return;
+
     try {
       const res = await axios.delete(`${API_URL}/products/${movie.id}`);
       console.log(`Data has been deleted!`, res.data);
@@ -140,6 +146,15 @@ const Admin = () => {
       }
     });
   }
+
+  //*=================== Scroll behavior onclick ==================
+  useEffect(() => {
+    if (isEditing || editData) {
+      document
+        .getElementById("editFormSection")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [editData, isEditing]);
 
   return (
     <section className="admin-section content-padding-lr">
@@ -231,7 +246,10 @@ const Admin = () => {
         )}
 
         {isEditing ? (
-          <div className="input-new-item-section section-padding">
+          <div
+            id="editFormSection"
+            className="input-new-item-section section-padding"
+          >
             <h1>Edit item</h1>
             <form className="input-new-item-form" onSubmit={updateDataHandler}>
               <input

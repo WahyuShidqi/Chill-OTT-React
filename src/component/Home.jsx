@@ -18,33 +18,50 @@ const Home = () => {
   const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
 
   const [moviesData, setMoviesData] = useState();
-
+  const [sortedMovies, setSortedMovies] = useState();
   useEffect(() => {
     if (data) {
       setMoviesData(data);
       console.log("data", data);
     }
+    if (data && data.length > 0) {
+      setSortedMovies(
+        [...data].sort((a, b) => Number(b.rating) - Number(a.rating)),
+      );
+    }
   }, [data]);
 
-  if (!data || data.length < 1) {
-    console.log("bruh");
-    return (
-      <>
-        <h2>No data yet...</h2>
-      </>
-    );
-  }
+  // if (!data || data.length < 1) {
+  //   console.log("bruh");
+  //   return (
+  //     <>
+  //       <h2>No data yet...</h2>
+  //     </>
+  //   );
+  // }
 
-  const sortedMovies = [...moviesData].sort(
-    (a, b) => Number(b.rating) - Number(a.rating),
-  );
   return (
     <main>
       {/* Hero section */}
 
       <section className="hero-section">
         {/* slides lists! */}
-        {moviesData.length > 0 ? (
+        {error && (
+          <div className="centralized-content section-padding">
+            <h3 className="empty-placeholder">{error}</h3>
+          </div>
+        )}
+        {loading && (
+          <div className="centralized-content section-padding">
+            <h3 className="empty-placeholder">Loading...</h3>
+          </div>
+        )}
+        {!error && !loading && moviesData?.length === 0 && (
+          <div className="centralized-content section-padding">
+            <h3 className="empty-placeholder">No movies yet...</h3>
+          </div>
+        )}
+        {!error && !loading && moviesData?.length > 0 && (
           <Swiper
             className="swiper hero-swiper"
             loop={true}
@@ -55,7 +72,7 @@ const Home = () => {
             }}
             modules={[Parallax, Autoplay]}
           >
-            {moviesData.map((data, idx) => {
+            {moviesData?.map((data, idx) => {
               return (
                 <SwiperSlide key={idx} className="swiper-slide hero-slide">
                   <HeroSlides
@@ -69,10 +86,6 @@ const Home = () => {
               );
             })}
           </Swiper>
-        ) : (
-          <div className="centralized-content section-padding">
-            <h2 className="empty-placeholder">No movies yet...</h2>
-          </div>
         )}
         {/* End of all slides :D */}
       </section>
@@ -80,7 +93,12 @@ const Home = () => {
       {/* Lanjut nonton section */}
       <section className="continue-watch-section section-padding content-padding-lr">
         <h2 className="text-xl section-title">Melanjutkan Tonton Film</h2>
-        {moviesData.length > 0 ? (
+        {error && <h3 className="empty-placeholder">{error}</h3>}
+        {loading && <h3 className="empty-placeholder">Loading...</h3>}
+        {!error && !loading && moviesData?.length === 0 && (
+          <h3 className="empty-placeholder">No movies yet...</h3>
+        )}
+        {!error && !loading && moviesData?.length > 0 && (
           <Swiper
             className="swiper continue-watch-swiper"
             loop={false}
@@ -124,8 +142,6 @@ const Home = () => {
             <div className="swiper-button-next" />
             <div className="swiper-button-prev" />
           </Swiper>
-        ) : (
-          <h3 className="empty-placeholder">No movies yet...</h3>
         )}
       </section>
 
@@ -135,7 +151,7 @@ const Home = () => {
           Top Rating Film dan Series Hari ini
         </h2>
         {/* slides lists! */}
-        {sortedMovies.length > 0 ? (
+        {sortedMovies?.length > 0 ? (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -187,7 +203,7 @@ const Home = () => {
       {/* Trending section */}
       <section className="trending-section section-padding content-padding-lr">
         <h2 className="text-xl section-title">Film Trending</h2>
-        {sortedMovies.length > 0 ? (
+        {sortedMovies?.length > 0 ? (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}
@@ -237,7 +253,7 @@ const Home = () => {
       {/* Rilisbaru section */}
       <section className="rilisbaru-section section-padding content-padding-lr">
         <h2 className="text-xl section-title">Rilis Baru</h2>
-        {sortedMovies.length > 0 ? (
+        {sortedMovies?.length > 0 ? (
           <Swiper
             className="swiper top-rating-swiper ver-swiper"
             loop={false}

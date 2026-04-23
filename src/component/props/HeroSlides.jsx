@@ -17,7 +17,7 @@ const HeroSlides = (prop) => {
       />
       <div className="swiper-lazy-preloader"></div>
       <div className="layout content-padding-lr">
-        <h1 className="font-bold text-xxl" data-swiper-parallax="-300">
+        <h1 className="font-bold text-xxl lh-md" data-swiper-parallax="-300">
           {prop.title}
         </h1>
         <p className="hero-title-desc text-cut" data-swiper-parallax="-300">
