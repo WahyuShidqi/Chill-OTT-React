@@ -5,22 +5,66 @@ import "../movieTable.css";
 
 import GenericCard from "./props/GenericCard.jsx";
 import axios from "axios";
-import useFetchData from "../api/useFetchData.jsx";
-import API_URL from "../api/apiUrl.jsx";
+//import useFetchData from "../api/useFetchData.jsx";
+import API_URL from "../api/apiUrl.js";
+import {
+  deleteData,
+  getMovies,
+  postMovie,
+  updateMovie,
+} from "../api/movieApi.js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteMovies,
+  fetchMovies,
+  postMovies,
+  updateMovies,
+} from "../store/redux/movieSlice.js";
 
 // Default banner image import
 
 const Admin = () => {
   //*========================= fetch data ===============================
-  const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
+  // const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
 
-  const [movies, setMovies] = useState();
+  // const [movies, setMovies] = useState();
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setMovies(data);
+  //   }
+  // }, [data]);
+
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [movies, setMovies] = useState();
+
+  // const fetchDataHandler = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const movieDataRes = await getMovies();
+  //     setMovies(movieDataRes);
+  //     setError(null);
+  //   } catch (error) {
+  //     setError(`Failed to get data from database :( ${error.message}`);
+  //     //console.log("Error occured:", error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // // initial data fetching on page load
+  // useEffect(() => {
+  //   fetchDataHandler();
+  // }, []);
+
+  const dispatch = useDispatch();
+
+  const { movies, loading, error } = useSelector((state) => state.movies);
 
   useEffect(() => {
-    if (data) {
-      setMovies(data);
-    }
-  }, [data]);
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   //*================================== post data ==================================
   const [isAddingData, setIsAddingData] = useState(false);
@@ -50,8 +94,8 @@ const Admin = () => {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/products`, newData);
-      console.log("Item added successfully!", res.data);
+      await dispatch(postMovies(newData)).unwrap();
+      console.log("Item added successfully!");
       // reset input values
 
       setNewData({
@@ -62,7 +106,7 @@ const Admin = () => {
         rating: "",
         description: "",
       });
-      mutate();
+      //fetchDataHandler();
     } catch (error) {
       console.log("Failed to add item!", error.message);
     }
@@ -94,7 +138,6 @@ const Admin = () => {
   const updateDataHandler = async (e) => {
     e.preventDefault();
     // original value to compare to track changes. if editData similar to existingData then updateHandler will not perform update
-
     if (
       Number.isNaN(Number(editData.rating)) ||
       Number.isNaN(Number(editData.ageRating))
@@ -108,16 +151,19 @@ const Admin = () => {
       return;
     }
 
-    console.log(existingData === editData);
     if (JSON.stringify(editData) === JSON.stringify(existingData)) {
       alert("Nothing changed!");
       return;
     }
 
     try {
-      const res = await axios.put(`${API_URL}/products/${editId}`, editData);
-      console.log("Data updated succesfully", res.data);
-      mutate();
+      //const res = await axios.put(`${API_URL}/products/${editId}`, editData);
+      //console.log("Data updated succesfully", res.data);
+      //await updateMovie(editId, editData);
+      //fetchDataHandler();
+
+      await dispatch(updateMovies({ id: editId, data: editData })).unwrap();
+      console.log("Data has been updated");
       setEditId(null);
       setIsEditing(false);
       setEditData({
@@ -143,9 +189,11 @@ const Admin = () => {
     if (!confirmDeletion) return;
 
     try {
-      const res = await axios.delete(`${API_URL}/products/${movie.id}`);
-      console.log(`Data has been deleted!`, res.data);
-      mutate();
+      //await deleteData("products", movie.id);
+      await dispatch(
+        deleteMovies({ endpoint: "products", id: movie.id }),
+      ).unwrap();
+      //fetchDataHandler();
     } catch (error) {
       console.log(`Failed to delete data ${error.message}`);
     }

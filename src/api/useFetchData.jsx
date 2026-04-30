@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import API_URL from "./apiUrl";
+import API_URL from "./apiUrl.js";
 
 const useFetchData = (endpoint) => {
   const [data, setData] = useState({});
