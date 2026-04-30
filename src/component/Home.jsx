@@ -9,27 +9,29 @@ import { Autoplay, Navigation, Parallax } from "swiper/modules";
 import HorizontalCard from "./props/HorizontalCard.jsx";
 import VerticalCard from "./props/VerticalCard.jsx";
 import useFetchData from "../api/useFetchData.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies } from "../store/redux/movieSlice.js";
 
 const Home = () => {
   // let topRatedMovie = [...MovieDB];
   // topRatedMovie.sort((a, b) => Number(a.rating) - Number(b.rating)).reverse();
 
   //*========================= fetch data ===============================
-  const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
+  // const { data, loading, error, mutate } = useFetchData("products"); // CUSTOM HOOKS
 
-  const [moviesData, setMoviesData] = useState();
-  const [sortedMovies, setSortedMovies] = useState();
-  useEffect(() => {
-    if (data) {
-      setMoviesData(data);
-      console.log("data", data);
-    }
-    if (data && data.length > 0) {
-      setSortedMovies(
-        [...data].sort((a, b) => Number(b.rating) - Number(a.rating)),
-      );
-    }
-  }, [data]);
+  // const [moviesData, setMoviesData] = useState();
+  //const [sortedMovies, setSortedMovies] = useState();
+  // useEffect(() => {
+  //   if (data) {
+  //     setMoviesData(data);
+  //     console.log("data", data);
+  //   }
+  //   if (data && data.length > 0) {
+  //     setSortedMovies(
+  //       [...data].sort((a, b) => Number(b.rating) - Number(a.rating)),
+  //     );
+  //   }
+  // }, [data]);
 
   // if (!data || data.length < 1) {
   //   console.log("bruh");
@@ -39,6 +41,24 @@ const Home = () => {
   //     </>
   //   );
   // }
+
+  const dispatch = useDispatch();
+
+  const {
+    movies: moviesData,
+    loading,
+    error,
+  } = useSelector((state) => state.movies);
+
+  console.log("movies:", moviesData);
+
+  const sortedMovies = [...moviesData]?.sort(
+    (a, b) => Number(b.rating) - Number(a.rating),
+  );
+
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   return (
     <main>
